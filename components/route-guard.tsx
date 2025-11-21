@@ -1,49 +1,74 @@
-"use client"
+"use client";
 
-import type React from "react"
-
-import { useEffect } from "react"
-import { useRouter } from "next/navigation"
-import { useAuth } from "@/hooks/use-auth"
-import type { Rol } from "@/lib/types"
+import { useEffect, useState } from "react";
+import { useRouter, usePathname } from "next/navigation";
+import { getToken, getUsuario, clearSession, StoredUser } from "@/lib/authStorage";
+import { Rol } from "@/types/Enums"; 
 
 interface RouteGuardProps {
-  children: React.ReactNode
-  allowedRoles?: Rol[]
+  children: React.ReactNode;
+  allowedRoles?: Rol[] | string[]; // Flexible para aceptar el Enum o strings
 }
 
 export function RouteGuard({ children, allowedRoles }: RouteGuardProps) {
-  const { usuario, isLoading } = useAuth()
-  const router = useRouter()
+  const router = useRouter();
+  const pathname = usePathname(); // Útil para depurar o evitar redirecciones cíclicas
+  const [isChecking, setIsChecking] = useState(true);
+  const [usuario, setUsuario] = useState<StoredUser | null>(null);
 
   useEffect(() => {
-    if (!isLoading && !usuario) {
-      router.push("/")
-    }
+    const checkAuth = () => {
+      const token = getToken();
+      const user = getUsuario();
 
-    if (!isLoading && usuario && allowedRoles && !allowedRoles.includes(usuario.rol)) {
-      router.push("/dashboard")
-    }
-  }, [usuario, isLoading, allowedRoles, router])
+   
+      if (!token || !user) {
+        clearSession(); 
+       
+        if (pathname !== "/") {
+            router.replace("/");
+        }
+        setIsChecking(false);
+        return;
+      }
 
-  if (isLoading) {
+      setUsuario(user);
+
+  
+      if (allowedRoles && allowedRoles.length > 0) {
+     
+        const tienePermiso = allowedRoles.includes(user.rol as any);
+
+        if (!tienePermiso) {
+       
+          console.warn(`Acceso denegado. Rol usuario: ${user.rol}, Permitidos: ${allowedRoles}`);
+          router.replace("/dashboard"); 
+          setIsChecking(false);
+          return;
+        }
+      }
+
+      // 3. Todo correcto
+      setIsChecking(false);
+    };
+
+    checkAuth();
+  }, [router, allowedRoles, pathname]);
+
+  if (isChecking) {
     return (
-      <div className="flex min-h-screen items-center justify-center">
+      <div className="flex min-h-screen items-center justify-center bg-background">
         <div className="flex flex-col items-center gap-4">
           <div className="h-12 w-12 animate-spin rounded-full border-4 border-primary border-t-transparent" />
-          <p className="text-muted-foreground">Cargando...</p>
+          <p className="text-muted-foreground text-sm font-medium">Verificando acceso...</p>
         </div>
       </div>
-    )
+    );
   }
 
-  if (!usuario) {
-    return null
-  }
+ 
+  if (!usuario) return null;
 
-  if (allowedRoles && !allowedRoles.includes(usuario.rol)) {
-    return null
-  }
-
-  return <>{children}</>
+ 
+  return <>{children}</>;
 }

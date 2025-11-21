@@ -1,63 +1,80 @@
 "use client"
 
-import { useAuth } from "@/hooks/use-auth"
-import { useIngresoMedico } from "@/hooks/use-ingresos"
+import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
-import { Rol } from "@/lib/types"
-import { ListaPacientesMedico } from "@/components/medico/lista-pacientes-medico"
+import { LogOut } from "lucide-react"
+
+// Componentes UI
 import { Button } from "@/components/ui/button"
+import { MedicoDashboard } from "@/components/medico/medicoDashboard" // Asegúrate que la ruta sea correcta
+
+
+// Lógica y Tipos
+import { authService } from "@/services/auth.service"
+
+import { Rol } from "@/types/Enums"
+import { getUsuario, StoredUser } from "@/lib/authStorage"
 import { RouteGuard } from "@/components/route-guard"
-import { LogOut, RefreshCw } from "lucide-react"
 
 function MedicoDashboardContent() {
-  const { usuario, logout } = useAuth()
   const router = useRouter()
-  const { ingresoActual, ingresosPrevios, isLoading, reclamarPaciente, finalizarAtencion, refresh } = useIngresoMedico(
-    usuario?.id || "",
-  )
+  const [usuario, setUsuario] = useState<StoredUser | null>(null)
+
+  // Obtenemos el usuario del localStorage solo para mostrar el nombre en el Header
+  useEffect(() => {
+    const user = getUsuario()
+    setUsuario(user)
+  }, [])
 
   const handleLogout = () => {
-    logout()
-    router.push("/")
+    authService.logout()
+    router.replace("/")
   }
 
   return (
     <div className="min-h-screen bg-background">
+      {/* HEADER */}
       <header className="bg-card border-b shadow-sm sticky top-0 z-10">
         <div className="container mx-auto px-4 py-4">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
-              <h1 className="text-xl sm:text-2xl font-bold text-foreground">Panel Médico</h1>
-              <p className="text-sm text-muted-foreground">Bienvenido/a, {usuario?.nombreCompleto}</p>
+              <h1 className="text-xl sm:text-2xl font-bold text-foreground">
+                Panel Médico
+              </h1>
+              <p className="text-sm text-muted-foreground">
+                Bienvenido/a, {usuario?.email || "Doctor"}
+              </p>
             </div>
+            
             <div className="flex items-center gap-2">
-              <Button variant="outline" size="sm" onClick={refresh} disabled={isLoading}>
-                <RefreshCw className={`h-4 w-4 sm:mr-2 ${isLoading ? "animate-spin" : ""}`} />
-                <span className="hidden sm:inline">Actualizar</span>
-              </Button>
-              <Button variant="outline" size="sm" onClick={handleLogout}>
+              {/* Nota: El botón de refrescar se eliminó porque MedicoDashboard 
+                  ahora se actualiza automáticamente con React Query (polling) */}
+              
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={handleLogout}
+                className="text-destructive hover:text-destructive hover:bg-destructive/10"
+              >
                 <LogOut className="h-4 w-4 sm:mr-2" />
-                <span className="hidden sm:inline">Salir</span>
+                <span className="hidden sm:inline">Cerrar Sesión</span>
               </Button>
             </div>
           </div>
         </div>
       </header>
 
+      {/* CONTENIDO PRINCIPAL */}
       <main className="container mx-auto px-4 py-4 sm:py-6 lg:py-8">
-        <ListaPacientesMedico
-          ingresoActual={ingresoActual}
-          ingresosPrevios={ingresosPrevios}
-          onReclamarPaciente={reclamarPaciente}
-          onFinalizarAtencion={finalizarAtencion}
-          medicoId={usuario?.id || ""}
-        />
+        {/* El componente ahora es autónomo y no requiere props de datos */}
+        <MedicoDashboard />
       </main>
     </div>
   )
 }
 
-export default function MedicoDashboard() {
+export default function MedicoProtectedPage() {
+  
   return (
     <RouteGuard allowedRoles={[Rol.Medico]}>
       <MedicoDashboardContent />
