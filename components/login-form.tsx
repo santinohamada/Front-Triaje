@@ -131,14 +131,6 @@ export function LoginForm() {
           </Button>
         </form>
 
-        {/* Usuarios demo */}
-        <div className="mt-6 space-y-2 text-xs text-muted-foreground bg-muted/50 p-4 rounded-lg">
-          <p className="font-semibold text-foreground">Usuarios de prueba:</p>
-          <div className="grid gap-1 sm:grid-cols-2">
-            <p>medico@test.com / 123456</p>
-            <p>enfermero@test.com / 123456</p>
-          </div>
-        </div>
       </CardContent>
 
       <CardFooter className="flex flex-col space-y-2 border-t pt-4 bg-muted/20">
