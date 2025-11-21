@@ -53,7 +53,7 @@ export function LoginForm() {
           rol: res.rol || "",
         });
 
-        router.push(`/dashboard/${res.rol}`);
+        router.push(`/dashboard/${res.rol?.toLocaleLowerCase()}`);
       } else {
         toastUtils.showApiError(res.mensaje);
       }
