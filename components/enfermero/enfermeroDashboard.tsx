@@ -218,7 +218,10 @@ export function EnfermeroDashboard() {
 
                   {/* 2. Posicionamiento absoluto para el mensaje */}
                   <div className="absolute top-full left-0 mt-1">
-                    <FormMessage className="h-8 text-xs" />
+                    <div className="h-8">
+
+                    <FormMessage className=" text-xs" />
+                    </div>
                   </div>
                 </FormItem>
               )}
@@ -280,7 +283,10 @@ export function EnfermeroDashboard() {
                       <FormControl>
                         <Input {...field} disabled={patientFound} />
                       </FormControl>
-                      <FormMessage className="h-8 text-xs" />
+                      <div className="h-8">
+
+                      <FormMessage className=" text-xs" />
+                      </div>
                     </FormItem>
                   )}
                 />
@@ -293,7 +299,10 @@ export function EnfermeroDashboard() {
                       <FormControl>
                         <Input {...field} disabled={patientFound} />
                       </FormControl>
-                      <FormMessage className="h-8 text-xs" />
+                      <div className="h-8">
+
+                      <FormMessage className=" text-xs" />
+                      </div>
                     </FormItem>
                   )}
                 />
@@ -306,7 +315,10 @@ export function EnfermeroDashboard() {
                       <FormControl>
                         <Input {...field} disabled={patientFound} />
                       </FormControl>
-                      <FormMessage className="h-8 text-xs" />
+                      <div className="h-8">
+
+                      <FormMessage className=" text-xs" />
+                      </div>
                     </FormItem>
                   )}
                 />
@@ -329,7 +341,10 @@ export function EnfermeroDashboard() {
                         <FormControl>
                           <Input {...field} disabled={patientFound} />
                         </FormControl>
-                        <FormMessage className="h-8 text-xs" />
+                        <div className="h-8">
+
+                        <FormMessage className=" text-xs" />
+                        </div>
                       </FormItem>
                     )}
                   />
@@ -348,7 +363,10 @@ export function EnfermeroDashboard() {
                             disabled={patientFound}
                           />
                         </FormControl>
-                        <FormMessage className="h-8 text-xs" />
+                        <div className="h-8">
+
+                        <FormMessage className=" text-xs" />
+                        </div>
                       </FormItem>
                     )}
                   />
@@ -363,7 +381,10 @@ export function EnfermeroDashboard() {
                         <FormControl>
                           <Input {...field} disabled={patientFound} />
                         </FormControl>
-                        <FormMessage className="h-8 text-xs" />
+                        <div className="h-8">
+
+                        <FormMessage className=" text-xs" />
+                        </div>
                       </FormItem>
                     )}
                   />
@@ -418,7 +439,10 @@ export function EnfermeroDashboard() {
                             disabled={patientFound && field.value !== ""}
                           />
                         </FormControl>
-                        <FormMessage className="h-8 text-xs" />
+                        <div className="h-8">
+
+                        <FormMessage className=" text-xs" />
+                        </div>
                       </FormItem>
                     )}
                   />
@@ -434,7 +458,10 @@ export function EnfermeroDashboard() {
                             disabled={patientFound && field.value !== ""}
                           />
                         </FormControl>
-                        <FormMessage className="h-8 text-xs" />
+                        <div className="h-8">
+
+                        <FormMessage className=" text-xs" />
+                        </div>
                       </FormItem>
                     )}
                   />
@@ -492,7 +519,10 @@ export function EnfermeroDashboard() {
                           </SelectItem>
                         </SelectContent>
                       </Select>
-                      <FormMessage className="h-8 text-xs" />
+                      <div className="h-8">
+
+                      <FormMessage className=" text-xs" />
+                      </div>
                     </FormItem>
                   )}
                 />
@@ -514,7 +544,10 @@ export function EnfermeroDashboard() {
                         <FormControl>
                           <Input type="number" {...field} />
                         </FormControl>
-                        <FormMessage className="h-8 text-xs" />
+                        <div className="h-8">
+
+                        <FormMessage className=" text-xs" />
+                        </div>
                       </FormItem>
                     )}
                   />
