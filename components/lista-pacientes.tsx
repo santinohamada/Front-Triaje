@@ -56,13 +56,13 @@ export function ListaPacientes() {
           <div className="space-y-4">
             {ingresos.map((ingreso, index) => {
               const estado = estadoConfig[ingreso.estado as EstadoIngreso];
-              
+              console.log(ingreso.nivelEmergencia)
               return (
                 <div
                   key={ingreso.id}
                   className="group relative border rounded-xl bg-card hover:bg-accent/5 transition-all duration-300 hover:shadow-lg animate-slide-in-left overflow-hidden"
                   style={{ animationDelay: `${index * 75}ms` }}
-                >
+                > 
                     {/* INDICADOR LATERAL DE PRIORIDAD (Borde coloreado) */}
                     <div className={`absolute left-0 top-0 bottom-0 w-1.5 ${prioridadConfig[ingreso.nivelEmergencia.prioridad].color}`} />
 

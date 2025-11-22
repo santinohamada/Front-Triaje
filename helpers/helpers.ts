@@ -62,6 +62,6 @@ export const prioridadConfig: Record<
   "Critico": estilosBase.critico,
   "Emergencia": estilosBase.emergencia,
   "Urgencia": estilosBase.urgencia,
-  "Urgencia Menor": estilosBase.urgenciaMenor,
-  "Sin Urgencia": estilosBase.sinUrgencia,
+  "UrgenciaMenor": estilosBase.urgenciaMenor,
+  "SinUrgencia": estilosBase.sinUrgencia,
 };
