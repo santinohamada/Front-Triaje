@@ -31,7 +31,7 @@ export const toastUtils = {
 
     toast.error("Ocurrió un error inesperado.");
   },
-
+  
   success: (title: string, description?: string) => {
     toast.success(title, { description });
   },
